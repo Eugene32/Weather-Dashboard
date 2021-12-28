@@ -116,6 +116,8 @@ body{
 
 .detail-window{
     border: 2px solid black;
+    display: flex;
+    flex-direction: column;
 
 }
 
@@ -131,4 +133,9 @@ body{
     width: 200px;
     height: 400px;
     border: 2px solid black;
+}
+
+
+.bold{
+    font-weight: bold;
 }

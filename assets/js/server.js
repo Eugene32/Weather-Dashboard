@@ -10,7 +10,7 @@ var UOM = 'imperial';
 
 
 // Retrieves current date
-var currentDate = moment().format('DD MM YYYY ');
+var currentDate = moment().format('DD[/]MMM[/]YYYY ');
 console.log(currentDate);
 
 
@@ -18,10 +18,12 @@ console.log(currentDate);
 function startSearch() {
 
     if (searchText.value) {
+        var cityName = searchText.value;
+        cityName = formatsearchText(cityName);
 
         clearInterval(blink);
 
-        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + searchText.value + '&units=' + UOM + '&appid=' + apiKey;
+        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + UOM + '&appid=' + apiKey;
         console.log(apiUrl);
         //window.location.assign(apiUrl);
         fetch(apiUrl).then(function (response) {
@@ -29,14 +31,11 @@ function startSearch() {
                 // window.location.assign('./index.html?q=' + searchText.value);
                 response.json().then(function (data) {
                     console.log(data);
-                    addHistory();
-                    addToDetail();
+                    addHistory(cityName);
+                    addToDetail(cityName, data);
                 });
             } else {
-                // document.location.replace('./index.html');
-
-                console.log(response.status);
-
+                window.alert(response.status);
             }
         });
 
@@ -47,6 +46,20 @@ function startSearch() {
             flag = 1;
         }
     }
+}
+
+
+function formatsearchText(cityName) {
+    var tempArray = cityName.split('');
+    var firstLetter = tempArray.shift();
+    firstLetter = firstLetter.toUpperCase();
+    tempArray = tempArray.join('');
+    tempArray = tempArray.toLowerCase();
+    tempArray = tempArray.split('');
+    tempArray.unshift(firstLetter);
+    cityName = tempArray;
+    return cityName = tempArray.join('');
+
 }
 
 // Makes the search input placeholder blink
@@ -64,16 +77,26 @@ function blinking() {
     }, 500);
 }
 
-function addHistory() {
+function addHistory(cityName) {
     var btn = document.createElement('button');
-    btn.innerText = searchText.value;
+    btn.innerText = cityName;
     btn.classList.add('history-buttons');
-    historyWindow.append(btn);   
+    historyWindow.append(btn);
 }
 
-function addToDetail() {
+function addToDetail(cityName, data) {
+    for (var i = 0; i < 5; i++) {
+        var span = document.createElement('span');
+        detailWindow.append(span);
+    }
 
-    
+    detailWindow.children[0].classList.add('bold');
+    detailWindow.children[0].innerText = cityName + ' ' + currentDate + '--';
+    detailWindow.children[1].innerHTML = 'Temp:  ' + data.main.temp + '&deg' + 'F';
+   
+
+
+
 }
 
 
