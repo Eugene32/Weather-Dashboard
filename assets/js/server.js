@@ -85,14 +85,21 @@ function addHistory(cityName) {
 }
 
 function addToDetail(cityName, data) {
-    for (var i = 0; i < 5; i++) {
+
+    var city = document.createElement('h2');
+    city.innerText = cityName + ' ' + currentDate + '--';
+    detailWindow.append(city);
+
+    for (var i = 0; i < 4; i++) {
         var span = document.createElement('span');
         detailWindow.append(span);
     }
-
-    detailWindow.children[0].classList.add('bold');
-    detailWindow.children[0].innerText = cityName + ' ' + currentDate + '--';
+    
     detailWindow.children[1].innerHTML = 'Temp:  ' + data.main.temp + '&deg' + 'F';
+    detailWindow.children[2].innerHTML = 'Wind:  ' + data.wind.speed + 'MPH';
+    detailWindow.children[3].innerHTML = 'Humidity:  ' + data.main.humidity + '%';
+    detailWindow.children[4].innerHTML = 'UV index:  ' + data.main.humidity;
+
    
 
 

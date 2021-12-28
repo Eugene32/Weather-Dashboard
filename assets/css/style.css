@@ -112,12 +112,14 @@ body{
     border: 2px solid black;
     width: 79%;
     height: 100%;
+    
 }
 
 .detail-window{
     border: 2px solid black;
     display: flex;
     flex-direction: column;
+    height: auto;
 
 }
 
@@ -138,4 +140,16 @@ body{
 
 .bold{
     font-weight: bold;
+}
+
+h1{
+    font-size: 3em;
+}
+
+h2{
+    font-size: 1.5em;
+}
+
+span{
+    margin-top: 10px;
 }
