@@ -44,10 +44,10 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-
     position: relative;
     align-items: center;
     width: auto;
+    text-align: left;
 }
 
 .search-input{
@@ -55,9 +55,12 @@ body{
     position: relative;
     padding: 5px 2px;
     width: 100%;
-    margin-bottom: 5px;
+    margin: 5px 0px;
+    
+
     border-radius: 3px;
-    padding: 10px 0px;
+    padding: 10px 5px;
+    
 }
 
 .buttons{
@@ -69,6 +72,10 @@ body{
     background-color: cornflowerblue;
     border-radius: 5px;
 
+}
+
+.buttons:hover{
+    cursor: pointer;
 }
 
 .search-history{
@@ -99,6 +106,7 @@ body{
     border: 2px solid black;
     display: flex;
     flex-direction: row;
+    
 }
 
 .forecast-window{

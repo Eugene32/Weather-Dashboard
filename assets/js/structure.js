@@ -33,9 +33,17 @@ searchDiv.setAttribute('id', 'searchFormDiv');
 aside.append(searchDiv);
 var searchFormDiv = document.querySelector('#searchFormDiv');
 
+
+
+var lbl_search = document.createElement('h2');
+lbl_search.innerText = 'Search for a City:';
+lbl_search.setAttribute('style', ' text-align: left');
+searchFormDiv.append(lbl_search);
+
 // Create input element
 var input = document.createElement('input');
 input.classList.add('search-input');
+input.setAttribute('placeholder', 'Name of City');
 searchFormDiv.append(input);
 
 
@@ -62,13 +70,17 @@ section.setAttribute('id', 'detail-window-frame');
 main.append(section);
 var detailWindowFrame = document.querySelector('#detail-window-frame');
 
-for (var x = 0; x < 2; x++) {
+for (var x = 0; x < 3; x++) {
     var div = document.createElement('div');
     detailWindowFrame.append(div);
 }
 
 detailWindowFrame.children[0].classList.add('detail-window');
-detailWindowFrame.children[1].classList.add('five-day-forecast-window');
+detailWindowFrame.children[1].textContent = '5-day Forecast:';
+detailWindowFrame.children[1].setAttribute('style', 'font-weight: bold')
+
+detailWindowFrame.children[2].classList.add('five-day-forecast-window');
+
 
 
 
