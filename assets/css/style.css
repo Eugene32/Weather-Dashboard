@@ -18,12 +18,9 @@ body{
     top: 0px;
     left: 0px;
     border: 2px solid black;
-
     display: flex;
-   flex-direction: row;
-
-  
-    
+    flex-direction: row;
+    flex-wrap: wrap;    
 }
 
 
@@ -37,6 +34,8 @@ body{
     width: 20%;
     height: auto;
     padding: 10px 2px;
+    justify-content: center;
+    flex-direction: column;
     
 
 }
@@ -45,9 +44,10 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    /* border: 2px solid black; */
+
     position: relative;
     align-items: center;
+    width: auto;
 }
 
 .search-input{
@@ -72,9 +72,15 @@ body{
 }
 
 .search-history{
+    position: relative;
     border: 2px solid black;
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
+    border-top: 5px solid black;
+    padding-top: 5px;
+    justify-content: space-between;
+
 }
 
 
