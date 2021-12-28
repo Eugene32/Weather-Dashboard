@@ -8,7 +8,7 @@ body{
     padding: 5px;
     width: 100%;
     height: auto;
-    background-image: linear-gradient(to right, red , yellow);
+    background-image: linear-gradient(to right, rgba(67, 67, 238, 0.726) , rgb(55, 0, 255));
     color: white;
     text-align: center;
 }
@@ -26,7 +26,7 @@ body{
 
 
 .aside {
-    border: 2px solid black;
+    /* border: 2px solid black; */
     display: flex;
     position: relative;
     top: 0px;
@@ -109,9 +109,10 @@ body{
 
 
 .detail-window-frame{
-    border: 2px solid black;
+    
     width: 79%;
     height: 100%;
+    margin-left: 5px;
     
 }
 

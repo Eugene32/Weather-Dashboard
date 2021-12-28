@@ -11,8 +11,6 @@ var UOM = 'imperial';
 
 // Retrieves current date
 var currentDate = moment().format('DD[/]MMM[/]YYYY ');
-console.log(currentDate);
-
 
 // Eventlistener function for searchBtn
 function startSearch() {
@@ -24,7 +22,7 @@ function startSearch() {
 
         var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + UOM + '&appid=' + apiKey;
         console.log(apiUrl);
-        //window.location.assign(apiUrl);
+       
         fetch(apiUrl).then(function (response) {
             if (response.ok) {
 
@@ -36,7 +34,7 @@ function startSearch() {
                         clearDetailWindow();
                     }
 
-                    addHistory(cityName);
+                    addHistory(cityName, data);
                     addToDetail(cityName, data);
                 });
             } else {
@@ -79,7 +77,7 @@ function clearDetailWindow() {
 function blinking() {
     blink = setInterval(function () {
         if (searchText.placeholder == '') {
-            searchText.setAttribute('placeholder', 'Please enter City name!');
+            searchText.setAttribute('placeholder', 'Enter City,Country!');
 
         }
         else {
@@ -90,9 +88,9 @@ function blinking() {
     }, 500);
 }
 
-function addHistory(cityName) {
+function addHistory(cityName, data) {
     var btn = document.createElement('button');
-    btn.innerText = cityName;
+    btn.innerText = cityName + ' , ' + data.sys.country;
     btn.classList.add('history-buttons');
     historyWindow.append(btn);
 }
@@ -100,7 +98,7 @@ function addHistory(cityName) {
 function addToDetail(cityName, data) {
 
     var city = document.createElement('h2');
-    city.innerText = cityName + ' ' + currentDate + '--';
+    city.innerText = cityName + ' , ' + data.sys.country + '  (' + currentDate + ')  --';
     detailWindow.append(city);
 
     for (var i = 0; i < 4; i++) {
