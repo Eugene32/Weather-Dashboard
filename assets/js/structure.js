@@ -77,9 +77,9 @@ for (var x = 0; x < 3; x++) {
 }
 
 detailWindowFrame.children[0].classList.add('detail-window');
+detailWindowFrame.children[0].setAttribute('id','detail-window');
 detailWindowFrame.children[1].textContent = '5-day Forecast:';
 detailWindowFrame.children[1].setAttribute('style', 'font-weight: bold')
-
 detailWindowFrame.children[2].classList.add('five-day-forecast-window');
 
 
