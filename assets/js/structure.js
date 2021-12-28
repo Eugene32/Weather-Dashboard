@@ -50,17 +50,28 @@ seartchBtn.textContent = 'Search';
 // Create history window
 var container = document.createElement('div');
 container.classList.add('search-history');
-container.setAttribute('id','search-history');
+container.setAttribute('id', 'search-history');
 aside.append(container);
 
 
 
 // Create detail window
 var section = document.createElement('section');
-section.classList.add('detail-window');
-section.setAttribute('id', 'detail-window');
+section.classList.add('detail-window-frame');
+section.setAttribute('id', 'detail-window-frame');
 main.append(section);
-var detailWindow = document.querySelector();
+var detailWindowFrame = document.querySelector('#detail-window-frame');
+
+for (var x = 0; x < 2; x++) {
+    var div = document.createElement('div');
+    detailWindowFrame.append(div);
+}
+
+detailWindowFrame.children[0].classList.add('detail-window');
+detailWindowFrame.children[1].classList.add('five-day-forecast-window');
+
+
+
 
 
 

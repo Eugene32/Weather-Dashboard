@@ -84,7 +84,7 @@ body{
 }
 
 
-.detail-window{
+.detail-window-frame{
     border: 2px solid black;
     width: 79%;
     height: 100%;
