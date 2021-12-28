@@ -4,6 +4,7 @@ var searchText = document.querySelector('.search-input');
 
 seartchBtn.addEventListener('click', startSearch);
 var blink;
+var flag = 0;
 
 function startSearch() {
 
@@ -11,11 +12,14 @@ function startSearch() {
 
         clearInterval(blink);
 
+
     }
     else {
 
-        blinking();
-
+        if (flag == 0) {
+            blinking();
+            flag = 1;
+        }
     }
 }
 
