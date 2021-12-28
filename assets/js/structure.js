@@ -43,7 +43,7 @@ searchFormDiv.append(lbl_search);
 // Create input element
 var input = document.createElement('input');
 input.classList.add('search-input');
-input.setAttribute('placeholder', 'City, Country');
+input.setAttribute('placeholder', 'City, Country Code');
 input.setAttribute('type', 'text');
 searchFormDiv.append(input);
 
@@ -81,6 +81,7 @@ detailWindowFrame.children[0].setAttribute('id','detail-window');
 detailWindowFrame.children[1].textContent = '5-day Forecast:';
 detailWindowFrame.children[1].setAttribute('style', 'font-weight: bold')
 detailWindowFrame.children[2].classList.add('five-day-forecast-window');
+detailWindowFrame.children[2].setAttribute('id','forecast-window');
 
 
 

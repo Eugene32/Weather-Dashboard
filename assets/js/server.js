@@ -2,46 +2,29 @@
 var searchText = document.querySelector('.search-input');
 var historyWindow = document.querySelector('#search-history');
 var detailWindow = document.querySelector('#detail-window');
-seartchBtn.addEventListener('click', startSearch);
+var forecastWindow = document.querySelector('#forecast-window');
+var cityData;
 var blink;
 var flag = 0;
 var apiKey = 'f01e048d8c7b041832cc86b2f4c62872';
 var UOM = 'imperial';
+var lat;
+var lon;
 
 
 // Retrieves current date
 var currentDate = moment().format('DD[/]MMM[/]YYYY ');
 
+//Event listener for searchBtn
+seartchBtn.addEventListener('click', startSearch);
+
+
+
 // Eventlistener function for searchBtn
 function startSearch() {
 
     if (searchText.value) {
-        var cityName = searchText.value;
-        cityName = formatsearchText(cityName);
-        clearInterval(blink);
-
-        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + UOM + '&appid=' + apiKey;
-        console.log(apiUrl);
-       
-        fetch(apiUrl).then(function (response) {
-            if (response.ok) {
-
-                response.json().then(function (data) {
-
-                    console.log(data);
-
-                    if (detailWindow.children.length !== 0) {
-                        clearDetailWindow();
-                    }
-
-                    addHistory(cityName, data);
-                    addToDetail(cityName, data);
-                });
-            } else {
-                window.alert(response.status);
-            }
-        });
-
+        fillDetailsWindow();
     }
     else {
         if (!flag) {
@@ -50,6 +33,63 @@ function startSearch() {
         }
     }
 }
+
+function fillDetailsWindow() {
+    var cityName = searchText.value;
+    cityName = formatsearchText(cityName);
+    clearInterval(blink);
+    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + UOM + '&appid=' + apiKey;
+    console.log(apiUrl);
+
+    fetch(apiUrl).then(function (response) {
+        if (response.ok) {
+
+            response.json().then(function (cityData) {
+
+                console.log(cityData);
+                fillForecastWindow(cityData);
+
+                if (detailWindow.children.length !== 0) {
+                    clearDetailWindow();
+                }
+
+                addHistory(cityName, cityData);
+                addToDetail(cityName, cityData);
+            });
+        } else {
+            window.alert(response.status);
+        }
+    });
+}
+
+
+function fillForecastWindow(cityData) {
+    console.log('this is the city data ' + cityData);
+    var lat = cityData.coord.lat;
+    console.log(lat);
+    var lon = cityData.coord.lon;
+    console.log(lon);
+    var apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly,alerts&units=metric&appid=' + apiKey;
+
+    console.log(apiUrl);
+
+    fetch(apiUrl).then(function (response) {
+        if (response.ok) {
+
+            response.json().then(function (forecastData) {
+
+                console.log(forecastData);
+
+                detailWindow.children[4].innerHTML = 'UV index:  ' + forecastData.current.uvi;
+
+            });
+        } else {
+            window.alert(response.status);
+        }
+    });
+}
+
+
 
 
 function formatsearchText(cityName) {
@@ -66,8 +106,12 @@ function formatsearchText(cityName) {
 }
 
 function clearDetailWindow() {
-    while(detailWindow.firstChild){
+    while (detailWindow.firstChild) {
         detailWindow.firstChild.remove();
+    }
+    while (forecastWindow.firstChild) {
+        forecastWindow.firstChild.remove();
+
     }
 
 }
@@ -111,7 +155,7 @@ function addToDetail(cityName, data) {
     detailWindow.children[1].innerHTML = 'Temp:  ' + data.main.temp + '&deg' + 'F';
     detailWindow.children[2].innerHTML = 'Wind:  ' + data.wind.speed + 'MPH';
     detailWindow.children[3].innerHTML = 'Humidity:  ' + data.main.humidity + '%';
-    detailWindow.children[4].innerHTML = 'UV index:  ' + data.main.humidity;
+    
 
 
 
