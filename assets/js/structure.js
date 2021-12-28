@@ -44,6 +44,7 @@ searchFormDiv.append(lbl_search);
 var input = document.createElement('input');
 input.classList.add('search-input');
 input.setAttribute('placeholder', 'Name of City');
+input.setAttribute('type', 'text');
 searchFormDiv.append(input);
 
 
