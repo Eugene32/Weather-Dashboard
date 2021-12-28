@@ -98,6 +98,8 @@ function addHistory(cityName, data) {
 function addToDetail(cityName, data) {
 
     var city = document.createElement('h2');
+    var temp = cityName.split(',');
+    cityName = temp[0];
     city.innerText = cityName + ' , ' + data.sys.country + '  (' + currentDate + ')  --';
     detailWindow.append(city);
 
