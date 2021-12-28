@@ -20,7 +20,6 @@ function startSearch() {
     if (searchText.value) {
         var cityName = searchText.value;
         cityName = formatsearchText(cityName);
-
         clearInterval(blink);
 
         var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + UOM + '&appid=' + apiKey;
@@ -28,9 +27,15 @@ function startSearch() {
         //window.location.assign(apiUrl);
         fetch(apiUrl).then(function (response) {
             if (response.ok) {
-                // window.location.assign('./index.html?q=' + searchText.value);
+
                 response.json().then(function (data) {
+
                     console.log(data);
+
+                    if (detailWindow.children.length !== 0) {
+                        clearDetailWindow();
+                    }
+
                     addHistory(cityName);
                     addToDetail(cityName, data);
                 });
@@ -61,6 +66,14 @@ function formatsearchText(cityName) {
     return cityName = tempArray.join('');
 
 }
+
+function clearDetailWindow() {
+    while(detailWindow.firstChild){
+        detailWindow.firstChild.remove();
+    }
+
+}
+
 
 // Makes the search input placeholder blink
 function blinking() {
@@ -94,13 +107,13 @@ function addToDetail(cityName, data) {
         var span = document.createElement('span');
         detailWindow.append(span);
     }
-    
+
     detailWindow.children[1].innerHTML = 'Temp:  ' + data.main.temp + '&deg' + 'F';
     detailWindow.children[2].innerHTML = 'Wind:  ' + data.wind.speed + 'MPH';
     detailWindow.children[3].innerHTML = 'Humidity:  ' + data.main.humidity + '%';
     detailWindow.children[4].innerHTML = 'UV index:  ' + data.main.humidity;
 
-   
+
 
 
 
