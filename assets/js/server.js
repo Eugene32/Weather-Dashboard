@@ -12,6 +12,9 @@ var srchHist = [];
 
 searchText.focus();  // Set focus to the input box at launch of page
 
+//Loads local storage history
+loadSearchHist();
+
 //Event listener for searchBtn
 seartchBtn.addEventListener('click', startSearch);
 
@@ -24,8 +27,6 @@ document.addEventListener('keypress', (event) => {
     }
 
 }, false);
-
-
 
 
 // This is the program main
@@ -57,11 +58,11 @@ function cityQuery() {
 
             response.json().then(function (cityData) {
 
-               
+
                 var lat = cityData.coord.lat;
                 var lon = cityData.coord.lon;
                 var country = cityData.sys.country;
-                cityName = cityName.split(',');     
+                cityName = cityName.split(',');
                 cityName = cityName[0];
                 console.log(cityName);
                 forecastQuery(cityName, lat, lon, country);
@@ -78,7 +79,7 @@ function cityQuery() {
 }
 
 // Gets the forecast data after retrieving latitude and longitude coordinates from city search
-function forecastQuery(cityName, lat, lon, country) { 
+function forecastQuery(cityName, lat, lon, country) {
 
     var apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly,alerts&units=' + UOM + '&appid=' + apiKey;
 
@@ -86,7 +87,7 @@ function forecastQuery(cityName, lat, lon, country) {
         if (response.ok) {
 
             response.json().then(function (forecastData) {
-               
+
                 addHistory(cityName, lat, lon, country);
                 addToDetailWindow(cityName, country, forecastData);
                 addToForecastWindow(forecastData);
@@ -140,9 +141,7 @@ function blinking() {
 function addHistory(cityName, lat, lon, country) {
 
     var btn = document.createElement('button');
-   // cityName = cityName.split(',');
-   // cityName = cityName[0];
-    btn.innerText = cityName + ', ' +  country;
+    btn.innerText = cityName + ', ' + country;
     btn.classList.add('history-buttons');
 
     //Insert latest query as first of the list
@@ -160,10 +159,9 @@ function addHistory(cityName, lat, lon, country) {
         if (!flag) {
             historyWindow.insertBefore(btn, historyWindow.firstChild);      // Adds a query history button to the start of the list.
             btn.innerText
-
             saveLocalHistory(cityName, lat, lon, country);
         }
-       
+
     }
     else {
         historyWindow.append(btn);   // Adds a query search button as history is empty
@@ -189,16 +187,6 @@ function saveLocalHistory(cityName, lat, lon, country) {
 
     // Saving a string file into the local storage
     localStorage.setItem('queryHist', JSON.stringify(srchHist));
-   
-}
-
-function retLocStrg(params) {
-    // Retrieving the local storage data
-    var tempStringList = localStorage.getItem("queryHist");
-    // If the local storage is not empty then update srchHist
-    if (tempStringList) {
-        srchHist = JSON.parse(tempStringList);
-    }
 
 }
 
@@ -207,7 +195,7 @@ historyWindow.addEventListener("click", function (event) {
     var selectedButton = event.target;
     event.preventDefault();
     if (selectedButton) {
-        searchText.value =selectedButton.innerHTML;
+        searchText.value = selectedButton.innerHTML;
         startSearch();
     }
 
@@ -290,7 +278,29 @@ function addToForecastWindow(forecastData) {
 
 }
 
+function loadSearchHist() {
+    retLocStrg();
 
+    for (let index = 0; index < srchHist.length; index++) {
+        var cityName = srchHist[index].cityName;
+        var lat = srchHist[index].lat;
+        var lon = srchHist[index].lon;
+        var country = srchHist[index].country;
+        addHistory(cityName, lat, lon, country);
+    }
+
+}
+
+
+function retLocStrg() {
+    // Retrieving the local storage data
+    var tempStringList = localStorage.getItem("queryHist");
+    // If the local storage is not empty then update srchHist
+    if (tempStringList) {
+        srchHist = JSON.parse(tempStringList);
+    }
+
+}
 
 
 
