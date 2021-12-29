@@ -139,7 +139,19 @@ function addHistory(cityName, data) {
     cityName = cityName[0];
     btn.innerText = cityName + ' , ' + data.sys.country;
     btn.classList.add('history-buttons');
-    historyWindow.append(btn);
+
+    //Insert checking for duplicates
+    
+
+    //Arranges latest query to the oldest query
+    if (historyWindow.firstChild) {
+        historyWindow.insertBefore(btn, historyWindow.firstChild);
+    }
+    else {
+        historyWindow.append(btn);
+    }
+
+
 }
 
 function addToDetail(cityName, cityData, forecastData) {
@@ -154,7 +166,7 @@ function addToDetail(cityName, cityData, forecastData) {
     var weatherIcon = forecastData.current.weather[0].icon;
     var iconUrl = 'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png';
     iconImage.setAttribute('src', iconUrl);
-    iconImage.classList.add('w-icon');  
+    iconImage.classList.add('w-icon');
     detailWindow.append(iconImage);
 
     for (var i = 0; i < 4; i++) {
@@ -165,8 +177,8 @@ function addToDetail(cityName, cityData, forecastData) {
     var weatherIcon = forecastData.current.weather[0].icon;
     console.log(weatherIcon);
     var iconUrl = 'http://openweathermap.org/img/wn/10d@2x.png';
-    
-    
+
+
     detailWindow.children[2].innerHTML = 'Temp:  ' + forecastData.current.temp + '&deg' + 'C';
     detailWindow.children[3].innerHTML = 'Wind:  ' + forecastData.current.wind_speed + 'KPH';
     detailWindow.children[4].innerHTML = 'Humidity:  ' + forecastData.current.humidity + '%';
@@ -175,20 +187,20 @@ function addToDetail(cityName, cityData, forecastData) {
         var span = document.createElement('span');
         detailWindow.children[5].append(span);
     }
-    
+
     detailWindow.children[5].children[0].innerText = 'UV Index:  ';
-    if(forecastData.current.uvi < 3){
-        detailWindow.children[5].children[1].classList.add('uvi-ok');     
+    if (forecastData.current.uvi < 3) {
+        detailWindow.children[5].children[1].classList.add('uvi-ok');
     }
-    else if(forecastData.current.uvi >= 3 && forecastData.current.uvi <= 5){
-        detailWindow.children[5].children[1].classList.add('uvi-warning');  
+    else if (forecastData.current.uvi >= 3 && forecastData.current.uvi <= 5) {
+        detailWindow.children[5].children[1].classList.add('uvi-warning');
     }
-    else{
-        detailWindow.children[5].children[1].classList.add('uvi-danger');  
+    else {
+        detailWindow.children[5].children[1].classList.add('uvi-danger');
     }
-        
-    
-    detailWindow.children[5].children[1].innerText =  forecastData.current.uvi;
+
+
+    detailWindow.children[5].children[1].innerText = forecastData.current.uvi;
 
 }
 

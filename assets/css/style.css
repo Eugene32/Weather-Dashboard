@@ -61,11 +61,8 @@ body{
     padding: 5px 2px;
     width: 100%;
     margin: 5px 0px;
-    
-
     border-radius: 3px;
     padding: 10px 5px;
-    
 }
 
 .buttons{
@@ -86,14 +83,13 @@ body{
 
 
 .search-history{
-    position: relative;
-   
+    position: relative;  
     display: flex;
     flex-direction: column;
     margin-top: 10px;
     border-top: 5px solid black;
     padding-top: 5px;
-    justify-content: space-between;
+    justify-content: space-around;   
 
 }
 
@@ -105,6 +101,8 @@ body{
     color: white;
     border-radius: 5px;
     background-color: lightgrey;
+    margin-top: 10px;
+    
 }
 
 .history-buttons:hover{
