@@ -307,7 +307,7 @@ function addToForecastWindow(forecastData) {
 function loadSearchHist() {
     retLocStrg();
 
-    for (let index = 0; index < srchHist.length; index++) {
+    for (let index = 0; index < srchHist.length && index <= 9; index++) {
         var cityName = srchHist[index].cityName;
         var lat = srchHist[index].lat;
         var lon = srchHist[index].lon;
