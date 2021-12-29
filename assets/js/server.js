@@ -170,19 +170,19 @@ function addHistory(cityName, data) {
 
 function addToDetailWindow(cityName, cityData, forecastData) {
 
-    console.log(forecastData.current.dt);
     var cityDate = moment(forecastData.current.dt, 'X').format('D[/]MMM[/]YYYY');
-    console.log(cityDate);
-    
+
     var city = document.createElement('h2');
     var temp = cityName.split(',');
     cityName = temp[0];
     city.innerText = cityName + ' , ' + cityData.sys.country + '  (' + cityDate + ')';
     detailWindow.append(city);
 
+    // This can be turned into a function
     var iconImage = document.createElement('img');
     var weatherIcon = forecastData.current.weather[0].icon;
     var iconUrl = 'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png';
+
     iconImage.setAttribute('src', iconUrl);
     iconImage.classList.add('w-icon');
     detailWindow.append(iconImage);
@@ -191,11 +191,6 @@ function addToDetailWindow(cityName, cityData, forecastData) {
         var span = document.createElement('span');
         detailWindow.append(span);
     }
-
-    var weatherIcon = forecastData.current.weather[0].icon;
-
-    var iconUrl = 'http://openweathermap.org/img/wn/10d@2x.png';
-
 
     detailWindow.children[2].innerHTML = 'Temp:  ' + forecastData.current.temp + '&deg' + 'C';
     detailWindow.children[3].innerHTML = 'Wind:  ' + forecastData.current.wind_speed + 'KPH';
@@ -207,6 +202,7 @@ function addToDetailWindow(cityName, cityData, forecastData) {
     }
 
     detailWindow.children[5].children[0].innerText = 'UV Index:  ';
+
     if (forecastData.current.uvi < 3) {
         detailWindow.children[5].children[1].classList.add('uvi-ok');
     }
@@ -216,12 +212,37 @@ function addToDetailWindow(cityName, cityData, forecastData) {
     else {
         detailWindow.children[5].children[1].classList.add('uvi-danger');
     }
-
-
     detailWindow.children[5].children[1].innerText = forecastData.current.uvi;
-
 }
+
 function addToForecastWindow(cityName, cityData, forecastData) {
+
+    for (var i = 1; i < 6; i++) {
+
+        var div = document.createElement('div');
+        div.classList.add('forecast-boxes');
+
+        for (let cntr = 0; cntr < 4; cntr++) {
+            var span = document.createElement('span');
+            div.append(span);
+        }
+
+        var cityDate = moment(forecastData.daily[i].dt, 'X').format('D[/]MMM[/]YYYY');
+        div.children[0].innerText = cityDate;
+        div.children[1].innerText = 'Temp:  ' + forecastData.daily[i].temp.day;
+        div.children[2].innerText = 'Wind:  ' + forecastData.daily[i].wind_speed;
+        div.children[3].innerText = 'Humidity:  ' + forecastData.daily[i].humidity;
+
+        var iconImage = document.createElement('img');
+        iconImage.classList.add('forecast-w-icon');
+        var weatherIcon = forecastData.daily[i].weather[0].icon;
+        var iconUrl = 'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png';
+        iconImage.setAttribute('src', iconUrl);
+        div.insertBefore(iconImage, div.children[1]);
+
+        forecastWindow.append(div);
+
+    }
 
 }
 
