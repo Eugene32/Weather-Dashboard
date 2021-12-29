@@ -10,9 +10,7 @@ var apiKey = 'f01e048d8c7b041832cc86b2f4c62872';
 var UOM = 'metric';
 var srchHist = [];
 
-
-// Retrieves current date
-var currentDate = moment().format('DD[/]MMM[/]YYYY ');
+searchText.focus();  // Set focus to the input box at launch of page
 
 //Event listener for searchBtn
 seartchBtn.addEventListener('click', startSearch);
@@ -29,11 +27,14 @@ document.addEventListener('keypress', (event) => {
 
 
 
+
 // This is the program main
 function startSearch() {
 
     if (searchText.value) {
         cityQuery();
+        searchText.innerText = '';
+        searchText.focus();
     }
     else {
         if (!flag) {
@@ -43,6 +44,7 @@ function startSearch() {
     }
 }
 
+// Get data from API - city search
 function cityQuery() {
     var cityName = searchText.value;
     cityName = formatsearchText(cityName);
@@ -56,7 +58,12 @@ function cityQuery() {
             response.json().then(function (cityData) {
 
                 console.log(cityData);
-                forecastQuery(cityName, cityData);
+                var lat = cityData.coord.lat;
+                var lon = cityData.coord.lon;
+                var country = cityData.sys.country;
+                cityName = cityName.split(',');     
+                cityName = cityName[0];
+                forecastQuery(cityName, lat, lon, country);
 
                 if (detailWindow.children.length !== 0) {
                     clearDetailWindow();
@@ -69,10 +76,8 @@ function cityQuery() {
     });
 }
 
-function forecastQuery(cityName, cityData) {
-
-    var lat = cityData.coord.lat;
-    var lon = cityData.coord.lon;
+// Gets the forecast data after retrieving latitude and longitude coordinates from city search
+function forecastQuery(cityName, lat, lon, country) { 
 
     var apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly,alerts&units=' + UOM + '&appid=' + apiKey;
 
@@ -82,8 +87,8 @@ function forecastQuery(cityName, cityData) {
             response.json().then(function (forecastData) {
 
                 console.log(forecastData);
-                addHistory(cityName, cityData);
-                addToDetailWindow(cityName, cityData, forecastData);
+                addHistory(cityName, lat, lon, country);
+                addToDetailWindow(cityName, country, forecastData);
                 addToForecastWindow(forecastData);
 
             });
@@ -132,13 +137,12 @@ function blinking() {
     }, 500);
 }
 
-function addHistory(cityName, cityData) {
-    var lat = cityData.coord.lat;
-    var lon = cityData.coord.lon;
+function addHistory(cityName, lat, lon, country) {
+
     var btn = document.createElement('button');
     cityName = cityName.split(',');
     cityName = cityName[0];
-    btn.innerText = cityName + ' , ' + cityData.sys.country;
+    btn.innerText = cityName + ', ' +  country;
     btn.classList.add('history-buttons');
 
     //Insert latest query as first of the list
@@ -147,7 +151,7 @@ function addHistory(cityName, cityData) {
         var flag = 0;
         //Check for duplicates in search
         for (var i = 0; i < historyWindow.children.length; i++) {
-            if (historyWindow.children[i].innerText == btn.innerText) {
+            if (historyWindow.children[i].innerText == btn.innerHTML) {
                 flag = 1;
             }
         }
@@ -159,27 +163,36 @@ function addHistory(cityName, cityData) {
 
             saveLocalHistory(btn.innerText, lat, lon);
         }
-        else {
-            window.alert('City is already Query history!');
-        }
+       
     }
     else {
         historyWindow.append(btn);   // Adds a query search button as history is empty
 
-        saveLocalHistory(btn.innerText, lat, lon);
+        saveLocalHistory(btn.innerText, lat, lon, country);
     }
 
 }
 
-function saveLocalHistory(cityName, lat, lon) {
+function saveLocalHistory(cityName, lat, lon, country) {
 
     // Prepares a container for the latest search
     var objCity = {
         cityName: cityName,
         lat: lat,
-        lon: lon
+        lon: lon,
+        country: country
     };
 
+    retLocStrg();  // Retrieve local storage
+
+    srchHist.unshift(objCity);  // Adding the latest query to the start of the search list history
+
+    // Saving a string file into the local storage
+    localStorage.setItem('queryHist', JSON.stringify(srchHist));
+   
+}
+
+function retLocStrg(params) {
     // Retrieving the local storage data
     var tempStringList = localStorage.getItem("queryHist");
     // If the local storage is not empty then update srchHist
@@ -187,26 +200,29 @@ function saveLocalHistory(cityName, lat, lon) {
         srchHist = JSON.parse(tempStringList);
     }
 
-    srchHist.unshift(objScore);  // Adding the latest query to the start of the search list history
-
-    // Saving a string file into the local storage
-    localStorage.setItem('queryHist', JSON.stringify(srchHist));
-    displayHighScore();
-
-
 }
 
-function addToDetailWindow(cityName, cityData, forecastData) {
+
+historyWindow.addEventListener("click", function (event) {
+    var selectedButton = event.target;
+    event.preventDefault();
+    if (selectedButton) {
+        searchText.value =selectedButton.innerHTML;
+        startSearch();
+    }
+
+});
+
+function addToDetailWindow(cityName, country, forecastData) {
 
     var cityDate = moment(forecastData.current.dt, 'X').format('D[/]MMM[/]YYYY');
 
     var city = document.createElement('h2');
-    var temp = cityName.split(',');
-    cityName = temp[0];
-    city.innerText = cityName + ' , ' + cityData.sys.country + '  (' + cityDate + ')';
+
+    city.innerText = cityName + ' , ' + country + '  (' + cityDate + ')';
     detailWindow.append(city);
 
-    // This can be turned into a function
+    // This may be possibly be turned into a function
     var iconImage = document.createElement('img');
     var weatherIcon = forecastData.current.weather[0].icon;
     var iconUrl = 'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png';
