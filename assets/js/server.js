@@ -125,6 +125,7 @@ function forecastQuery(cityName, lat, lon, country) {
     });
 }
 
+// Change the text to have a uniform appearance when displayed.
 function formatsearchText(cityName) {
     var tempArray = cityName.split('');
     var firstLetter = tempArray.shift();
