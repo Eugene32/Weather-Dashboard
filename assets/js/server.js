@@ -63,6 +63,7 @@ function cityQuery() {
                 var country = cityData.sys.country;
                 cityName = cityName.split(',');     
                 cityName = cityName[0];
+                console.log(cityName);
                 forecastQuery(cityName, lat, lon, country);
 
                 if (detailWindow.children.length !== 0) {
@@ -139,8 +140,8 @@ function blinking() {
 function addHistory(cityName, lat, lon, country) {
 
     var btn = document.createElement('button');
-    cityName = cityName.split(',');
-    cityName = cityName[0];
+   // cityName = cityName.split(',');
+   // cityName = cityName[0];
     btn.innerText = cityName + ', ' +  country;
     btn.classList.add('history-buttons');
 
@@ -160,14 +161,14 @@ function addHistory(cityName, lat, lon, country) {
             historyWindow.insertBefore(btn, historyWindow.firstChild);      // Adds a query history button to the start of the list.
             btn.innerText
 
-            saveLocalHistory(btn.innerText, lat, lon);
+            saveLocalHistory(cityName, lat, lon, country);
         }
        
     }
     else {
         historyWindow.append(btn);   // Adds a query search button as history is empty
 
-        saveLocalHistory(btn.innerText, lat, lon, country);
+        saveLocalHistory(cityName, lat, lon, country);
     }
 
 }
