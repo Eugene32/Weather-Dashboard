@@ -8,8 +8,7 @@ var blink;
 var flag = 0;
 var apiKey = 'f01e048d8c7b041832cc86b2f4c62872';
 var UOM = 'metric';
-var lat;
-var lon;
+var srchHist = [];
 
 
 // Retrieves current date
@@ -44,8 +43,6 @@ function startSearch() {
     }
 }
 
-
-
 function cityQuery() {
     var cityName = searchText.value;
     cityName = formatsearchText(cityName);
@@ -72,7 +69,6 @@ function cityQuery() {
     });
 }
 
-
 function forecastQuery(cityName, cityData) {
 
     var lat = cityData.coord.lat;
@@ -88,7 +84,7 @@ function forecastQuery(cityName, cityData) {
                 console.log(forecastData);
                 addHistory(cityName, cityData);
                 addToDetailWindow(cityName, cityData, forecastData);
-                addToForecastWindow(cityName, cityData, forecastData);
+                addToForecastWindow(forecastData);
 
             });
         } else {
@@ -136,14 +132,16 @@ function blinking() {
     }, 500);
 }
 
-function addHistory(cityName, data) {
+function addHistory(cityName, cityData) {
+    var lat = cityData.coord.lat;
+    var lon = cityData.coord.lon;
     var btn = document.createElement('button');
     cityName = cityName.split(',');
     cityName = cityName[0];
-    btn.innerText = cityName + ' , ' + data.sys.country;
+    btn.innerText = cityName + ' , ' + cityData.sys.country;
     btn.classList.add('history-buttons');
 
-    //Arranges latest query to the oldest query
+    //Insert latest query as first of the list
     if (historyWindow.firstChild) {
 
         var flag = 0;
@@ -154,9 +152,12 @@ function addHistory(cityName, data) {
             }
         }
 
-        // If there are not duplicates in the search
+        // If there are no duplicates in the search
         if (!flag) {
             historyWindow.insertBefore(btn, historyWindow.firstChild);      // Adds a query history button to the start of the list.
+            btn.innerText
+
+            saveLocalHistory(btn.innerText, lat, lon);
         }
         else {
             window.alert('City is already Query history!');
@@ -164,7 +165,34 @@ function addHistory(cityName, data) {
     }
     else {
         historyWindow.append(btn);   // Adds a query search button as history is empty
+
+        saveLocalHistory(btn.innerText, lat, lon);
     }
+
+}
+
+function saveLocalHistory(cityName, lat, lon) {
+
+    // Prepares a container for the latest search
+    var objCity = {
+        cityName: cityName,
+        lat: lat,
+        lon: lon
+    };
+
+    // Retrieving the local storage data
+    var tempStringList = localStorage.getItem("queryHist");
+    // If the local storage is not empty then update srchHist
+    if (tempStringList) {
+        srchHist = JSON.parse(tempStringList);
+    }
+
+    srchHist.unshift(objScore);  // Adding the latest query to the start of the search list history
+
+    // Saving a string file into the local storage
+    localStorage.setItem('queryHist', JSON.stringify(srchHist));
+    displayHighScore();
+
 
 }
 
@@ -215,7 +243,7 @@ function addToDetailWindow(cityName, cityData, forecastData) {
     detailWindow.children[5].children[1].innerText = forecastData.current.uvi;
 }
 
-function addToForecastWindow(cityName, cityData, forecastData) {
+function addToForecastWindow(forecastData) {
 
     for (var i = 1; i < 6; i++) {
 
@@ -229,7 +257,7 @@ function addToForecastWindow(cityName, cityData, forecastData) {
 
         var cityDate = moment(forecastData.daily[i].dt, 'X').format('D[/]MMM[/]YYYY');
         div.children[0].innerText = cityDate;
-        div.children[1].innerHTML = 'Temp:  ' + forecastData.daily[i].temp.day +'&deg' + 'C';;
+        div.children[1].innerHTML = 'Temp:  ' + forecastData.daily[i].temp.day + '&deg' + 'C';;
         div.children[2].innerText = 'Wind:  ' + forecastData.daily[i].wind_speed + 'KPH';
         div.children[3].innerText = 'Humidity:  ' + forecastData.daily[i].humidity + '%';
 

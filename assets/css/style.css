@@ -121,7 +121,7 @@ body{
     width: 79%;
     height: auto;
     margin-left: 5px;
-    
+    margin-bottom: 5px;
 }
 
 .detail-window{
@@ -135,7 +135,7 @@ body{
 }
 
 .five-day-forecast-window{
-    
+    margin-top: 5px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
