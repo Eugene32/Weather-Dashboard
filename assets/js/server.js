@@ -18,6 +18,16 @@ var currentDate = moment().format('DD[/]MMM[/]YYYY ');
 //Event listener for searchBtn
 seartchBtn.addEventListener('click', startSearch);
 
+// Add event listener on keypress for Enter 
+document.addEventListener('keypress', (event) => {
+    var keyName = event.key;
+
+    if (keyName == 'Enter') {
+        startSearch();
+    }
+
+}, false);
+
 
 
 // Eventlistener function for searchBtn
@@ -33,6 +43,8 @@ function startSearch() {
         }
     }
 }
+
+
 
 function fillDetailsWindow() {
     var cityName = searchText.value;
@@ -140,19 +152,32 @@ function addHistory(cityName, data) {
     btn.innerText = cityName + ' , ' + data.sys.country;
     btn.classList.add('history-buttons');
 
-    //Insert checking for duplicates
-    
-
     //Arranges latest query to the oldest query
     if (historyWindow.firstChild) {
-        historyWindow.insertBefore(btn, historyWindow.firstChild);
+
+        var flag = 0;
+        //Check for duplicates in search
+        for (var i = 0; i < historyWindow.children.length; i++) {
+            if (historyWindow.children[i].innerText == btn.innerText) {
+                flag = 1;
+            }
+        }
+
+        // If there are not duplicates in the search
+        if (!flag) {
+            historyWindow.insertBefore(btn, historyWindow.firstChild);      // Adds a query history button to the start of the list.
+        }
+        else {
+            window.alert('City is already Query history!');
+        }
     }
     else {
-        historyWindow.append(btn);
+        historyWindow.append(btn);   // Adds a query search button as history is empty
     }
 
-
 }
+
+
 
 function addToDetail(cityName, cityData, forecastData) {
 

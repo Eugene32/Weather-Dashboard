@@ -1,3 +1,8 @@
+:root{
+    --uvIndexBorRad: 3px;
+}
+
+
 body{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 
@@ -164,20 +169,26 @@ span{
     position: relative;
     width: 10%;
     height: auto;
-
+  
 }
 
 .uvi-ok{
     background-color: green;
     color: white;
+    border-radius: var(--uvIndexBorRad);
+    padding: 2px;
 }
 
 .uvi-warning{
     background-color: orange;
     color: white;
+    border-radius: var(--uvIndexBorRad);
+    padding: 2px;
 }
 
 .uvi-danger{
     background-color: red;
     color: yellow;
+    border-radius: var(--uvIndexBorRad);
+    padding: 2px;
 }
