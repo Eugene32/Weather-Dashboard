@@ -115,6 +115,8 @@ function forecastQuery(cityName, lat, lon, country) {
                 addHistory(cityName, lat, lon, country);
                 addToDetailWindow(cityName, country, forecastData);
                 addToForecastWindow(forecastData);
+                searchText.value = '';
+                searchText.focus;
 
             });
         } else {
@@ -171,18 +173,23 @@ function addHistory(cityName, lat, lon, country) {
     //Insert latest query as first of the list
     if (historyWindow.firstChild) {
 
-        var flag = 0;
+        var flag = false;
         //Check for duplicates in search
         for (var i = 0; i < historyWindow.children.length; i++) {
             if (historyWindow.children[i].innerText == btn.innerHTML) {
-                flag = 1;
+                flag = true;
             }
         }
 
         // If there are no duplicates in the search
-        if (!flag) {
+        if (flag == false) {
             historyWindow.insertBefore(btn, historyWindow.firstChild);      // Adds a query history button to the start of the list.
-            btn.innerText
+            //btn.innerText
+            console.log('length before removal'+ historyWindow.children.length);
+            if (historyWindow.children.length == 12){
+                historyWindow.children[11].remove();
+                console.log('after removal' + historyWindow.children.length);
+            }
             saveLocalHistory(cityName, lat, lon, country);
         }
 
@@ -219,6 +226,10 @@ function saveLocalHistory(cityName, lat, lon, country) {
     retLocStrg();  // Retrieve local storage
 
     srchHist.unshift(objCity);  // Adding the latest query to the start of the search list history
+    console.log(srchHist.length);
+    if(srchHist.length === 11){
+        srchHist.pop();
+    }
 
     // Saving a string file into the local storage
     localStorage.setItem('queryHist', JSON.stringify(srchHist));
