@@ -57,7 +57,7 @@ function cityQuery() {
 
             response.json().then(function (cityData) {
 
-                console.log(cityData);
+               
                 var lat = cityData.coord.lat;
                 var lon = cityData.coord.lon;
                 var country = cityData.sys.country;
@@ -85,8 +85,7 @@ function forecastQuery(cityName, lat, lon, country) {
         if (response.ok) {
 
             response.json().then(function (forecastData) {
-
-                console.log(forecastData);
+               
                 addHistory(cityName, lat, lon, country);
                 addToDetailWindow(cityName, country, forecastData);
                 addToForecastWindow(forecastData);
