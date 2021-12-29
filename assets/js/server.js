@@ -229,9 +229,9 @@ function addToForecastWindow(cityName, cityData, forecastData) {
 
         var cityDate = moment(forecastData.daily[i].dt, 'X').format('D[/]MMM[/]YYYY');
         div.children[0].innerText = cityDate;
-        div.children[1].innerText = 'Temp:  ' + forecastData.daily[i].temp.day;
-        div.children[2].innerText = 'Wind:  ' + forecastData.daily[i].wind_speed;
-        div.children[3].innerText = 'Humidity:  ' + forecastData.daily[i].humidity;
+        div.children[1].innerHTML = 'Temp:  ' + forecastData.daily[i].temp.day +'&deg' + 'C';;
+        div.children[2].innerText = 'Wind:  ' + forecastData.daily[i].wind_speed + 'KPH';
+        div.children[3].innerText = 'Humidity:  ' + forecastData.daily[i].humidity + '%';
 
         var iconImage = document.createElement('img');
         iconImage.classList.add('forecast-w-icon');

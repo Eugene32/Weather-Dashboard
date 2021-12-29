@@ -151,6 +151,7 @@ body{
     flex-direction: column;
     background-color: darkslategray;
     color: whitesmoke;
+    padding: 5px;
     
 }
 
