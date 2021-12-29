@@ -30,11 +30,11 @@ document.addEventListener('keypress', (event) => {
 
 
 
-// Eventlistener function for searchBtn
+// This is the program main
 function startSearch() {
 
     if (searchText.value) {
-        fillDetailsWindow();
+        cityQuery();
     }
     else {
         if (!flag) {
@@ -46,12 +46,12 @@ function startSearch() {
 
 
 
-function fillDetailsWindow() {
+function cityQuery() {
     var cityName = searchText.value;
     cityName = formatsearchText(cityName);
     clearInterval(blink);
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + UOM + '&appid=' + apiKey;
-    console.log(apiUrl);
+
 
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
@@ -59,7 +59,7 @@ function fillDetailsWindow() {
             response.json().then(function (cityData) {
 
                 console.log(cityData);
-                fillForecastWindow(cityName, cityData);
+                forecastQuery(cityName, cityData);
 
                 if (detailWindow.children.length !== 0) {
                     clearDetailWindow();
@@ -73,16 +73,12 @@ function fillDetailsWindow() {
 }
 
 
-function fillForecastWindow(cityName, cityData) {
+function forecastQuery(cityName, cityData) {
 
-    console.log('this is the city data ' + cityData);
     var lat = cityData.coord.lat;
-    console.log(lat);
     var lon = cityData.coord.lon;
-    console.log(lon);
-    var apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly,alerts&units=' + UOM + '&appid=' + apiKey;
 
-    console.log(apiUrl);
+    var apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly,alerts&units=' + UOM + '&appid=' + apiKey;
 
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
@@ -91,9 +87,8 @@ function fillForecastWindow(cityName, cityData) {
 
                 console.log(forecastData);
                 addHistory(cityName, cityData);
-                addToDetail(cityName, cityData, forecastData);
-
-
+                addToDetailWindow(cityName, cityData, forecastData);
+                addToForecastWindow(cityName, cityData, forecastData);
 
             });
         } else {
@@ -101,9 +96,6 @@ function fillForecastWindow(cityName, cityData) {
         }
     });
 }
-
-
-
 
 function formatsearchText(cityName) {
     var tempArray = cityName.split('');
@@ -128,7 +120,6 @@ function clearDetailWindow() {
     }
 
 }
-
 
 // Makes the search input placeholder blink
 function blinking() {
@@ -177,14 +168,16 @@ function addHistory(cityName, data) {
 
 }
 
+function addToDetailWindow(cityName, cityData, forecastData) {
 
-
-function addToDetail(cityName, cityData, forecastData) {
-
+    console.log(forecastData.current.dt);
+    var cityDate = moment(forecastData.current.dt, 'X').format('D[/]MMM[/]YYYY');
+    console.log(cityDate);
+    
     var city = document.createElement('h2');
     var temp = cityName.split(',');
     cityName = temp[0];
-    city.innerText = cityName + ' , ' + cityData.sys.country + '  (' + currentDate + ')';
+    city.innerText = cityName + ' , ' + cityData.sys.country + '  (' + cityDate + ')';
     detailWindow.append(city);
 
     var iconImage = document.createElement('img');
@@ -200,7 +193,7 @@ function addToDetail(cityName, cityData, forecastData) {
     }
 
     var weatherIcon = forecastData.current.weather[0].icon;
-    console.log(weatherIcon);
+
     var iconUrl = 'http://openweathermap.org/img/wn/10d@2x.png';
 
 
@@ -228,7 +221,9 @@ function addToDetail(cityName, cityData, forecastData) {
     detailWindow.children[5].children[1].innerText = forecastData.current.uvi;
 
 }
+function addToForecastWindow(cityName, cityData, forecastData) {
 
+}
 
 
 
