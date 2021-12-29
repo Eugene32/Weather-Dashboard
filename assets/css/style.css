@@ -83,7 +83,7 @@ body{
 
 .buttons:hover{
     cursor: pointer;
-    box-shadow: 2px 2px grey;
+    box-shadow: 3px 3px gray;
 }
 
 
@@ -113,6 +113,24 @@ body{
 .history-buttons:hover{
     background-color: cornflowerblue;
     border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 3px 3px gray;
+}
+
+#clear-btn{
+    border: 2px solid black;
+    position: relative;
+    padding: 5px 2px;
+    width: 100%;
+    color: yellow;
+    border-radius: 5px;
+    background-color: red;
+    margin-top: 10px;
+}
+
+#clear-btn:hover{
+    box-shadow: 3px 3px gray;
+    cursor: pointer;
 }
 
 

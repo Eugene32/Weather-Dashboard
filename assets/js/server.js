@@ -9,11 +9,26 @@ var flag = 0;
 var apiKey = 'f01e048d8c7b041832cc86b2f4c62872';
 var UOM = 'metric';
 var srchHist = [];
+var clearBtn = false;
+var clearButton
 
 searchText.focus();  // Set focus to the input box at launch of page
 
 //Loads local storage history
 loadSearchHist();
+
+
+//
+if(clearBtn == true){
+    clearButton = document.querySelector('#clear-btn');
+    clearButton.addEventListener('click', clearStorage);
+    
+}
+
+function clearStorage() {
+    localStorage.removeItem('queryHist');
+    location.reload();
+}
 
 //Event listener for searchBtn
 seartchBtn.addEventListener('click', startSearch);
@@ -27,6 +42,17 @@ document.addEventListener('keypress', (event) => {
     }
 
 }, false);
+
+// Event listener for search history buttons
+historyWindow.addEventListener("click", function (event) {
+    var selectedButton = event.target;
+    event.preventDefault();
+    if (selectedButton) {
+        searchText.value = selectedButton.innerHTML;
+        startSearch();
+    }
+
+});
 
 
 // This is the program main
@@ -64,7 +90,7 @@ function cityQuery() {
                 var country = cityData.sys.country;
                 cityName = cityName.split(',');
                 cityName = cityName[0];
-                console.log(cityName);
+
                 forecastQuery(cityName, lat, lon, country);
 
                 if (detailWindow.children.length !== 0) {
@@ -165,11 +191,22 @@ function addHistory(cityName, lat, lon, country) {
     }
     else {
         historyWindow.append(btn);   // Adds a query search button as history is empty
-
         saveLocalHistory(cityName, lat, lon, country);
+        addClearButton();
     }
 
 }
+
+function addClearButton() {
+    var btn = document.createElement('button');
+    btn.innerText = 'Clear History'; 
+    btn.setAttribute ('id' , 'clear-btn');
+    clearBtn = true;
+    historyWindow.append(btn);
+    
+}
+
+
 
 function saveLocalHistory(cityName, lat, lon, country) {
 
@@ -191,15 +228,6 @@ function saveLocalHistory(cityName, lat, lon, country) {
 }
 
 
-historyWindow.addEventListener("click", function (event) {
-    var selectedButton = event.target;
-    event.preventDefault();
-    if (selectedButton) {
-        searchText.value = selectedButton.innerHTML;
-        startSearch();
-    }
-
-});
 
 function addToDetailWindow(cityName, country, forecastData) {
 
@@ -286,7 +314,17 @@ function loadSearchHist() {
         var lat = srchHist[index].lat;
         var lon = srchHist[index].lon;
         var country = srchHist[index].country;
-        addHistory(cityName, lat, lon, country);
+        var btn = document.createElement('button');
+        btn.innerText = cityName + ', ' + country;
+        btn.classList.add('history-buttons');
+        historyWindow.append(btn);
+    }
+
+    if (historyWindow.firstChild) {
+        searchText.value = historyWindow.firstChild.innerHTML;
+        addClearButton();
+        startSearch();
+
     }
 
 }
@@ -301,7 +339,6 @@ function retLocStrg() {
     }
 
 }
-
 
 
 
