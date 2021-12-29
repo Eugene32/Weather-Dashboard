@@ -116,7 +116,7 @@ body{
 .detail-window-frame{
     margin-top: 10px;
     width: 79%;
-    height: 100%;
+    height: auto;
     margin-left: 5px;
     
 }
@@ -125,8 +125,9 @@ body{
     border: 2px solid black;
     display: flex;
     flex-direction: column;
-    height: 200px;
+    height: auto;
     justify-content: space-evenly;
+    padding: 10px;
 
 }
 
@@ -159,4 +160,26 @@ h2{
 
 span{
     margin-top: 10px;
+}
+
+.w-icon{
+    position: relative;
+    width: 10%;
+    height: auto;
+
+}
+
+.uvi-ok{
+    background-color: green;
+    color: white;
+}
+
+.uvi-warning{
+    background-color: orange;
+    color: white;
+}
+
+.uvi-danger{
+    background-color: red;
+    color: yellow;
 }
