@@ -62,8 +62,6 @@ container.classList.add('search-history');
 container.setAttribute('id', 'search-history');
 aside.append(container);
 
-
-
 // Create detail window
 var section = document.createElement('section');
 section.classList.add('detail-window-frame');
@@ -82,10 +80,3 @@ detailWindowFrame.children[1].textContent = '5-day Forecast:';
 detailWindowFrame.children[1].setAttribute('style', 'font-weight: bold')
 detailWindowFrame.children[2].classList.add('five-day-forecast-window');
 detailWindowFrame.children[2].setAttribute('id','forecast-window');
-
-
-
-
-
-
-

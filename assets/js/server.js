@@ -17,12 +17,10 @@ searchText.focus();  // Set focus to the input box at launch of page
 //Loads local storage history
 loadSearchHist();
 
-
 //
 if(clearBtn == true){
     clearButton = document.querySelector('#clear-btn');
-    clearButton.addEventListener('click', clearStorage);
-    
+    clearButton.addEventListener('click', clearStorage);    
 }
 
 function clearStorage() {
