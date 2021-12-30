@@ -21,4 +21,4 @@ Web page preview:
 
 ![alt text][logo]
 
-[logo]: assets/05-third-party-apis-homework-demo.gif "Day Planner"
+[logo]: assets/weather-dashboard-demo.png "Weather Dashboard demo"
