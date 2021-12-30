@@ -1,23 +1,21 @@
 # Weather-Dashboard
 
-
-This web page performs the following feature:
+This web page is a weather dasboard that:
  - Allows weather search for a city.
- - Country of the city can be specific with a comma separator
- - Event entry can be saved locally and be retrieved if there was a previous entry.
-    - Unsaved entry will be lost upon refresh.
- - Background color will change depending on the system time.
-    - Past hours will be in gray.
-    - Current time on the planner will be in red.
-    - The rest of the time will be in green denoting that it is still in the future.
+ - Country of the city can be specific with a comma separator.
+ - A 5-day forecast will be displayed together with the current.
+ - Search history will be saved locally and be retrieved at page load.
+    - History is limited to 10 entries only.  Oldest will be discarded on the next unique query.
+    - Option to clear history had been provided.
+ - Does not allow duplication of search.
+ - UV index background color will change in accordance to intensity and its risk to health.
  - This page utilizes third-party momentjs.
 
  - Limitations:
-    - This web page does not have option to change unit of measure
+    - This web page does not have an option to change unit of measure.
+    - No. of days forecast is static.
 
-
-
-Web page link --> [Day Planner](https://eugene32.github.io/Day_Planner/)
+Web page link --> [Weather Dashboard](https://eugene32.github.io/Weather-Dashboard/)
 
 Web page preview:
 
