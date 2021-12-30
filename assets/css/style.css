@@ -140,7 +140,7 @@ body{
     display: flex;
     flex-direction: column;
     height: auto;
-    justify-content: space-evenly;
+    justify-content: space-between;
     padding: 10px;
 
 }
@@ -183,9 +183,18 @@ span{
 }
 
 #w-icon{
-    width: 10%;
-    height: auto;
-    float: right;  
+    width: auto;
+    height: 5em;
+    position: relative;
+    top: -30px;
+    
+}
+
+.current-weather-header{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    height: 1.5em;
 }
 
 .forecast-w-icon{

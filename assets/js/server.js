@@ -246,10 +246,13 @@ function addToDetailWindow(cityName, country, forecastData) {
 
     var cityDate = moment(forecastData.current.dt, 'X').format('D[/]MMM[/]YYYY');
 
+    var div = document.createElement('div');
+    div.classList.add('current-weather-header');
     var city = document.createElement('h2');
+    
 
     city.innerText = cityName + ' , ' + country + '  (' + cityDate + ')';
-    detailWindow.append(city);
+    div.append(city);
 
     // Retrieving the icon from API server
     var iconImage = document.createElement('img');
@@ -258,42 +261,44 @@ function addToDetailWindow(cityName, country, forecastData) {
 
     iconImage.setAttribute('src', iconUrl);
     iconImage.setAttribute('id', 'w-icon');
-    detailWindow.append(iconImage);
+    div.append(iconImage);
+
+    detailWindow.append(div);
 
     for (var i = 0; i < 4; i++) {
         var span = document.createElement('span');
         detailWindow.append(span);
     }
 
-    detailWindow.children[2].innerHTML = 'Temp:  ' + forecastData.current.temp + '&deg' + 'C';
-    detailWindow.children[3].innerHTML = 'Wind:  ' + forecastData.current.wind_speed + 'KPH';
-    detailWindow.children[4].innerHTML = 'Humidity:  ' + forecastData.current.humidity + '%';
+    detailWindow.children[1].innerHTML = 'Temp:  ' + forecastData.current.temp + '&deg' + 'C';
+    detailWindow.children[2].innerHTML = 'Wind:  ' + forecastData.current.wind_speed + 'KPH';
+    detailWindow.children[3].innerHTML = 'Humidity:  ' + forecastData.current.humidity + '%';
 
     // Puts two spans to accomodate lbl UV index and actual value of uv index
     for (var i = 0; i < 2; i++) {
         var span = document.createElement('span');
-        detailWindow.children[5].append(span);
+        detailWindow.children[4].append(span);
     }
 
-    detailWindow.children[5].children[0].innerText = 'UV Index:  ';
+    detailWindow.children[4].children[0].innerText = 'UV Index:  ';
 
     // Renders the background and text color according to uv index value
     if (forecastData.current.uvi < 3) {
-        detailWindow.children[5].children[1].classList.add('uvi-low');
+        detailWindow.children[4].children[1].classList.add('uvi-low');
     }
     else if (forecastData.current.uvi >= 3 && forecastData.current.uvi <= 5) {
-        detailWindow.children[5].children[1].classList.add('uvi-moderate');
+        detailWindow.children[4].children[1].classList.add('uvi-moderate');
     }
     else if (forecastData.current.uvi >= 6 && forecastData.current.uvi <= 7) {
-        detailWindow.children[5].children[1].classList.add('uvi-high');
+        detailWindow.children[4].children[1].classList.add('uvi-high');
     }
     else if (forecastData.current.uvi >= 8 && forecastData.current.uvi <= 10) {
-        detailWindow.children[5].children[1].classList.add('uvi-very-high');
+        detailWindow.children[4].children[1].classList.add('uvi-very-high');
     }
     else {
-        detailWindow.children[5].children[1].classList.add('uvi-extreme');
+        detailWindow.children[4].children[1].classList.add('uvi-extreme');
     }
-    detailWindow.children[5].children[1].innerText = forecastData.current.uvi;
+    detailWindow.children[4].children[1].innerText = forecastData.current.uvi;
 }
 
 // Display 5-day weather forecast
