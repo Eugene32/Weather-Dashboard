@@ -97,7 +97,7 @@ function cityQuery() {
 
             });
         } else {
-            window.alert('Invalid input!!!');
+            window.alert('Invalid input!!! \n\rFollow format: City, Country');
         }
     });
 }
