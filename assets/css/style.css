@@ -117,7 +117,7 @@ body{
     width: 100%;
     color: yellow;
     border-radius: 5px;
-    background-color: red;
+    background-color: darkred;
     margin-top: 10px;
 }
 
@@ -182,11 +182,10 @@ span{
     margin-top: 10px;
 }
 
-.w-icon{
-    position: relative;
+#w-icon{
     width: 10%;
     height: auto;
-    float: right;  /* see if this works, else use after */
+    float: right;  
 }
 
 .forecast-w-icon{

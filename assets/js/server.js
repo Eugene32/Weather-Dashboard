@@ -257,7 +257,7 @@ function addToDetailWindow(cityName, country, forecastData) {
     var iconUrl = 'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png';
 
     iconImage.setAttribute('src', iconUrl);
-    iconImage.classList.add('w-icon');
+    iconImage.setAttribute('id', 'w-icon');
     detailWindow.append(iconImage);
 
     for (var i = 0; i < 4; i++) {
