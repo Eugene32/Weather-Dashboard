@@ -1,5 +1,5 @@
 :root{
-    --uvIndexBorRad: 3px;
+    --BorRad: 3px;
 }
 
 
@@ -195,23 +195,37 @@ span{
     height: auto;    
 }
 
-.uvi-ok{
+.uvi-low{
     background-color: green;
     color: white;
-    border-radius: var(--uvIndexBorRad);
+    border-radius: var(--BorRad);
     padding: 2px;
 }
 
-.uvi-warning{
+.uvi-moderate{
+    background-color: yellow;
+    color: black;
+    border-radius: var(--BorRad);
+    padding: 2px;
+}
+
+.uvi-high{
     background-color: orange;
     color: white;
-    border-radius: var(--uvIndexBorRad);
+    border-radius: var(--BorRad);
     padding: 2px;
 }
 
-.uvi-danger{
+.uvi-very-high{
     background-color: red;
     color: yellow;
-    border-radius: var(--uvIndexBorRad);
+    border-radius: var(--BorRad);
+    padding: 2px;
+}
+
+.uvi-extreme{
+    background-color: rebeccapurple;
+    color: red;
+    border-radius: var(--BorRad);
     padding: 2px;
 }

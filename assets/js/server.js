@@ -6,7 +6,7 @@ var forecastWindow = document.querySelector('#forecast-window');
 var cityData;
 var blink;
 var flag = 0;
-var apiKey = 'f01e048d8c7b041832cc86b2f4c62872';
+var apiKey = 'f01e048d8c7b041832cc86b2f4c62872';  // API key to access server
 var UOM = 'metric';
 var srchHist = [];
 var clearBtn = false;
@@ -14,15 +14,16 @@ var clearButton
 
 searchText.focus();  // Set focus to the input box at launch of page
 
-//Loads local storage history
+//Loads local storage history at the start if such exists
 loadSearchHist();
 
-//
+// Place a clear button if the history list is not empty as well as add an evenlistner for the click
 if(clearBtn == true){
     clearButton = document.querySelector('#clear-btn');
     clearButton.addEventListener('click', clearStorage);    
 }
 
+// Clear the local storage for this web page only and reloads the page
 function clearStorage() {
     localStorage.removeItem('queryHist');
     location.reload();
@@ -53,7 +54,7 @@ historyWindow.addEventListener("click", function (event) {
 });
 
 
-// This is the program main
+// This is the program main.  Executions starts from here
 function startSearch() {
 
     if (searchText.value) {
@@ -69,7 +70,7 @@ function startSearch() {
     }
 }
 
-// Get data from API - city search
+// Get data from API server - city search
 function cityQuery() {
     var cityName = searchText.value;
     cityName = formatsearchText(cityName);
@@ -81,7 +82,6 @@ function cityQuery() {
         if (response.ok) {
 
             response.json().then(function (cityData) {
-
 
                 var lat = cityData.coord.lat;
                 var lon = cityData.coord.lon;
@@ -97,12 +97,12 @@ function cityQuery() {
 
             });
         } else {
-            window.alert(response.status);
+            window.alert('Invalid input!!!');
         }
     });
 }
 
-// Gets the forecast data after retrieving latitude and longitude coordinates from city search
+// Gets the forecast data from server after retrieving latitude and longitude coordinates from city search
 function forecastQuery(cityName, lat, lon, country) {
 
     var apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly,alerts&units=' + UOM + '&appid=' + apiKey;
@@ -139,6 +139,7 @@ function formatsearchText(cityName) {
 
 }
 
+//Clears the display in prep for new query or data
 function clearDetailWindow() {
     while (detailWindow.firstChild) {
         detailWindow.firstChild.remove();
@@ -150,7 +151,7 @@ function clearDetailWindow() {
 
 }
 
-// Makes the search input placeholder blink
+// Makes the search input placeholder blink when no input had been given for a search
 function blinking() {
     blink = setInterval(function () {
         if (searchText.placeholder == '') {
@@ -165,6 +166,7 @@ function blinking() {
     }, 500);
 }
 
+// Places a button for the latest query to search history section
 function addHistory(cityName, lat, lon, country) {
 
     var btn = document.createElement('button');
@@ -203,6 +205,7 @@ function addHistory(cityName, lat, lon, country) {
 
 }
 
+// Routine to actually append a clear button on search history window
 function addClearButton() {
     var btn = document.createElement('button');
     btn.innerText = 'Clear History'; 
@@ -213,7 +216,7 @@ function addClearButton() {
 }
 
 
-
+// Saving the search query history to loc storage for future retrieval
 function saveLocalHistory(cityName, lat, lon, country) {
 
     // Prepares a container for the latest search
@@ -238,7 +241,7 @@ function saveLocalHistory(cityName, lat, lon, country) {
 }
 
 
-
+// Display information on the detail window for current weather
 function addToDetailWindow(cityName, country, forecastData) {
 
     var cityDate = moment(forecastData.current.dt, 'X').format('D[/]MMM[/]YYYY');
@@ -248,7 +251,7 @@ function addToDetailWindow(cityName, country, forecastData) {
     city.innerText = cityName + ' , ' + country + '  (' + cityDate + ')';
     detailWindow.append(city);
 
-    // This may be possibly be turned into a function
+    // Retrieving the icon from API server
     var iconImage = document.createElement('img');
     var weatherIcon = forecastData.current.weather[0].icon;
     var iconUrl = 'http://openweathermap.org/img/wn/' + weatherIcon + '@2x.png';
@@ -266,6 +269,7 @@ function addToDetailWindow(cityName, country, forecastData) {
     detailWindow.children[3].innerHTML = 'Wind:  ' + forecastData.current.wind_speed + 'KPH';
     detailWindow.children[4].innerHTML = 'Humidity:  ' + forecastData.current.humidity + '%';
 
+    // Puts two spans to accomodate lbl UV index and actual value of uv index
     for (var i = 0; i < 2; i++) {
         var span = document.createElement('span');
         detailWindow.children[5].append(span);
@@ -273,18 +277,26 @@ function addToDetailWindow(cityName, country, forecastData) {
 
     detailWindow.children[5].children[0].innerText = 'UV Index:  ';
 
+    // Renders the background and text color according to uv index value
     if (forecastData.current.uvi < 3) {
-        detailWindow.children[5].children[1].classList.add('uvi-ok');
+        detailWindow.children[5].children[1].classList.add('uvi-low');
     }
     else if (forecastData.current.uvi >= 3 && forecastData.current.uvi <= 5) {
-        detailWindow.children[5].children[1].classList.add('uvi-warning');
+        detailWindow.children[5].children[1].classList.add('uvi-moderate');
+    }
+    else if (forecastData.current.uvi >= 6 && forecastData.current.uvi <= 7) {
+        detailWindow.children[5].children[1].classList.add('uvi-high');
+    }
+    else if (forecastData.current.uvi >= 8 && forecastData.current.uvi <= 10) {
+        detailWindow.children[5].children[1].classList.add('uvi-very-high');
     }
     else {
-        detailWindow.children[5].children[1].classList.add('uvi-danger');
+        detailWindow.children[5].children[1].classList.add('uvi-extreme');
     }
     detailWindow.children[5].children[1].innerText = forecastData.current.uvi;
 }
 
+// Display 5-day weather forecast
 function addToForecastWindow(forecastData) {
 
     for (var i = 1; i < 6; i++) {
@@ -316,6 +328,7 @@ function addToForecastWindow(forecastData) {
 
 }
 
+// Making the buttons and adding them to history list when web page is loaded
 function loadSearchHist() {
     retLocStrg();
 
@@ -339,7 +352,7 @@ function loadSearchHist() {
 
 }
 
-
+// Retrievng local storage if it exists
 function retLocStrg() {
     // Retrieving the local storage data
     var tempStringList = localStorage.getItem("queryHist");

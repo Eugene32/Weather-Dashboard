@@ -34,7 +34,7 @@ aside.append(searchDiv);
 var searchFormDiv = document.querySelector('#searchFormDiv');
 
 
-
+// Creating the label for the search form
 var lbl_search = document.createElement('h2');
 lbl_search.innerText = 'Search for a City:';
 lbl_search.setAttribute('style', ' text-align: left');
@@ -62,18 +62,21 @@ container.classList.add('search-history');
 container.setAttribute('id', 'search-history');
 aside.append(container);
 
-// Create detail window
+// Create detail and forecast container
 var section = document.createElement('section');
 section.classList.add('detail-window-frame');
 section.setAttribute('id', 'detail-window-frame');
 main.append(section);
 var detailWindowFrame = document.querySelector('#detail-window-frame');
 
+
+// Creating the detailWindow, 5-day label section and 5-day forecast window (div)
 for (var x = 0; x < 3; x++) {
     var div = document.createElement('div');
     detailWindowFrame.append(div);
 }
 
+// Associating corresponding class and id to elements created
 detailWindowFrame.children[0].classList.add('detail-window');
 detailWindowFrame.children[0].setAttribute('id','detail-window');
 detailWindowFrame.children[1].textContent = '5-day Forecast:';
