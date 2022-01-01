@@ -251,7 +251,7 @@ span{
   }
 
   
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 500px) {
     
 .main {
         position: relative;
@@ -275,7 +275,6 @@ span{
     flex-direction: column;
 }
 
-
 .search-form{
     display: flex;
     flex-direction: column;
@@ -290,8 +289,6 @@ span{
     text-align: left;
     align-self: center;
 }
-
-
 
 .detail-window-frame{
     margin-top: 10px;
