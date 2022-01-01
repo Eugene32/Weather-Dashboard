@@ -3,6 +3,7 @@ var searchText = document.querySelector('.search-input');
 var historyWindow = document.querySelector('#search-history');
 var detailWindow = document.querySelector('#detail-window');
 var forecastWindow = document.querySelector('#forecast-window');
+var asideWindow = document.querySelector('.aside');
 var cityData;
 var blink;
 var flag = 0;
@@ -17,16 +18,12 @@ searchText.focus();  // Set focus to the input box at launch of page
 //Loads local storage history at the start if such exists
 loadSearchHist();
 
-// Place a clear button if the history list is not empty as well as add an evenlistner for the click
-if(clearBtn == true){
-    clearButton = document.querySelector('#clear-btn');
-    clearButton.addEventListener('click', clearStorage);    
-}
 
 // Clear the local storage for this web page only and reloads the page
 function clearStorage() {
-    localStorage.removeItem('queryHist');
     location.reload();
+    localStorage.removeItem('queryHist');
+   
 }
 
 //Event listener for searchBtn
@@ -35,8 +32,9 @@ seartchBtn.addEventListener('click', startSearch);
 // Add event listener on keypress for Enter 
 document.addEventListener('keypress', (event) => {
     var keyName = event.key;
+    var targetText = event.target.innerText;
 
-    if (keyName == 'Enter') {
+    if (keyName == 'Enter' && targetText != 'Clear History') {
         startSearch();
     }
 
@@ -211,7 +209,9 @@ function addClearButton() {
     btn.innerText = 'Clear History'; 
     btn.setAttribute ('id' , 'clear-btn');
     clearBtn = true;
-    historyWindow.append(btn);
+    asideWindow.append(btn);
+    clearButton = document.querySelector('#clear-btn');
+    clearButton.addEventListener('click', clearStorage);   
     
 }
 
