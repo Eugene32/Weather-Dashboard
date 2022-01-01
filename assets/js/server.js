@@ -1,4 +1,3 @@
-
 var searchText = document.querySelector('.search-input');
 var historyWindow = document.querySelector('#search-history');
 var detailWindow = document.querySelector('#detail-window');
@@ -34,7 +33,7 @@ document.addEventListener('keypress', (event) => {
     var keyName = event.key;
     var targetText = event.target.innerText;
 
-    if (keyName == 'Enter' && targetText != 'Clear History') {
+    if (keyName == 'Enter') {
         startSearch();
     }
 
@@ -187,7 +186,7 @@ function addHistory(cityName, lat, lon, country) {
             historyWindow.insertBefore(btn, historyWindow.firstChild);      // Adds a query history button to the start of the list.
             //btn.innerText
             console.log('length before removal'+ historyWindow.children.length);
-            if (historyWindow.children.length == 12){
+            if (historyWindow.children.length == 11){
                 historyWindow.children[11].remove();
                 console.log('after removal' + historyWindow.children.length);
             }
