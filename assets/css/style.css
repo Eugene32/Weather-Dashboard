@@ -249,3 +249,96 @@ span{
     padding-top: 20px;
     padding-bottom: 20px;
   }
+
+  
+@media screen and (max-width: 360px) {
+    
+.main {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;    
+}
+
+
+.aside {
+    display: flex;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: auto;
+    padding: 10px 2px;
+    flex-direction: column;
+}
+
+
+.search-form{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 0px;
+    padding-top: 0px;
+    margin-top: 5px;
+    justify-content: space-evenly;
+    position: relative;
+    align-items: left;
+    width: 100%;
+    text-align: left;
+    align-self: center;
+}
+
+
+
+.detail-window-frame{
+    margin-top: 10px;
+    width: 100%;
+    height: auto;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+
+.detail-window{
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    justify-content: space-between;
+    padding: 10px;
+
+}
+.current-weather-header{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    font-size: 70%;
+}
+
+
+#w-icon{
+    width: 100;
+    height: 150%;
+    position: relative;
+    top: 0px;
+    
+}
+
+
+.forecast-boxes{
+    border-radius: 5px;
+    width: 18%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: darkslategray;
+    color: whitesmoke;
+    padding: 5px;
+    font-size: 70%;
+    
+}
+
+}
