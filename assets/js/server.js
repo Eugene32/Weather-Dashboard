@@ -44,7 +44,8 @@ historyWindow.addEventListener("click", function (event) {
     var selectedButton = event.target;
     event.preventDefault();
     if (selectedButton) {
-        searchText.value = selectedButton.innerHTML;
+       // searchText.value = selectedButton.innerHTML;
+       searchText.value = selectedButton.innerHTML;
         startSearch();
     }
 
@@ -348,7 +349,8 @@ function loadSearchHist() {
     }
 
     if (historyWindow.firstChild) {
-        searchText.value = historyWindow.firstChild.innerHTML;
+        //searchText.value = historyWindow.firstChild.innerHTML;
+        queryText= historyWindow.firstChild.innerHTML
         addClearButton();
         startSearch();
 
