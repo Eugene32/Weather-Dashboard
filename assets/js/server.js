@@ -22,7 +22,7 @@ loadSearchHist();
 function clearStorage() {
     location.reload();
     localStorage.removeItem('queryHist');
-   
+
 }
 
 //Event listener for searchBtn
@@ -44,9 +44,10 @@ historyWindow.addEventListener("click", function (event) {
     var selectedButton = event.target;
     event.preventDefault();
     if (selectedButton) {
-       // searchText.value = selectedButton.innerHTML;
-       searchText.value = selectedButton.innerHTML;
-        startSearch();
+        cityName = selectedButton.innerHTML;
+        searchText.innerText = '';
+        searchText.focus();
+        cityQuery(cityName);
     }
 
 });
@@ -56,9 +57,11 @@ historyWindow.addEventListener("click", function (event) {
 function startSearch() {
 
     if (searchText.value) {
-        cityQuery();
+        var cityName = searchText.value;
         searchText.innerText = '';
         searchText.focus();
+        cityQuery(cityName);
+
     }
     else {
         if (!flag) {
@@ -69,8 +72,8 @@ function startSearch() {
 }
 
 // Get data from API server - city search
-function cityQuery() {
-    var cityName = searchText.value;
+function cityQuery(cityName) {
+
     cityName = formatsearchText(cityName);
     clearInterval(blink);
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + UOM + '&appid=' + apiKey;
@@ -185,9 +188,8 @@ function addHistory(cityName, lat, lon, country) {
         // If there are no duplicates in the search
         if (flag == false) {
             historyWindow.insertBefore(btn, historyWindow.firstChild);      // Adds a query history button to the start of the list.
-            //btn.innerText
-            console.log('length before removal'+ historyWindow.children.length);
-            if (historyWindow.children.length == 11){
+            console.log('length before removal' + historyWindow.children.length);
+            if (historyWindow.children.length == 11) {
                 historyWindow.children[11].remove();
                 console.log('after removal' + historyWindow.children.length);
             }
@@ -206,13 +208,13 @@ function addHistory(cityName, lat, lon, country) {
 // Routine to actually append a clear button on search history window
 function addClearButton() {
     var btn = document.createElement('button');
-    btn.innerText = 'Clear History'; 
-    btn.setAttribute ('id' , 'clear-btn');
+    btn.innerText = 'Clear History';
+    btn.setAttribute('id', 'clear-btn');
     clearBtn = true;
     asideWindow.append(btn);
     clearButton = document.querySelector('#clear-btn');
-    clearButton.addEventListener('click', clearStorage);   
-    
+    clearButton.addEventListener('click', clearStorage);
+
 }
 
 
@@ -231,7 +233,7 @@ function saveLocalHistory(cityName, lat, lon, country) {
 
     srchHist.unshift(objCity);  // Adding the latest query to the start of the search list history
     console.log(srchHist.length);
-    if(srchHist.length === 11){
+    if (srchHist.length === 11) {
         srchHist.pop();
     }
 
@@ -249,7 +251,7 @@ function addToDetailWindow(cityName, country, forecastData) {
     var div = document.createElement('div');
     div.classList.add('current-weather-header');
     var city = document.createElement('h2');
-    
+
 
     city.innerText = cityName + ' , ' + country + '  (' + cityDate + ')';
     div.append(city);
