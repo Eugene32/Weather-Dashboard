@@ -36,7 +36,7 @@ document.addEventListener('keypress', (event) => {
     if (keyName == 'Enter') {
         searchText.innerText = '';
         startSearch();
-        detailWindow.focus();
+        detailWindow.scrollIntoView();
     }
 
 }, false);
@@ -50,7 +50,7 @@ historyWindow.addEventListener("click", function (event) {
         searchText.innerText = '';
         
         cityQuery(cityName);
-        detailWindow.focus();
+        detailWindow.scrollIntoView();
     }
 
 });
@@ -356,7 +356,7 @@ function loadSearchHist() {
         cityQuery(cityName);
 
     }
-    detailWindow.focus();
+    detailWindow.scrollIntoView();
 
 }
 
