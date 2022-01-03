@@ -351,9 +351,11 @@ function loadSearchHist() {
     }
 
     if (historyWindow.firstChild) {
-        searchText.value = historyWindow.firstChild.innerHTML;
+        var cityName = historyWindow.firstChild.innerHTML;
         addClearButton();
-        startSearch();
+        searchText.innerText = '';
+        searchText.focus();
+        cityQuery(cityName);
 
     }
 
