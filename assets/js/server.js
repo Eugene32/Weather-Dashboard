@@ -34,7 +34,9 @@ document.addEventListener('keypress', (event) => {
     var targetText = event.target.innerText;
 
     if (keyName == 'Enter') {
+        searchText.innerText = '';
         startSearch();
+        detailWindow.focus();
     }
 
 }, false);
@@ -46,8 +48,9 @@ historyWindow.addEventListener("click", function (event) {
     if (selectedButton) {
         cityName = selectedButton.innerHTML;
         searchText.innerText = '';
-        searchText.focus();
+        
         cityQuery(cityName);
+        detailWindow.focus();
     }
 
 });
@@ -57,11 +60,8 @@ historyWindow.addEventListener("click", function (event) {
 function startSearch() {
 
     if (searchText.value) {
-        var cityName = searchText.value;
-        searchText.innerText = '';
-        searchText.focus();
+        var cityName = searchText.value;  
         cityQuery(cityName);
-
     }
     else {
         if (!flag) {
@@ -73,7 +73,7 @@ function startSearch() {
 
 // Get data from API server - city search
 function cityQuery(cityName) {
-
+    detailWindow.focus();
     cityName = formatsearchText(cityName);
     clearInterval(blink);
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&units=' + UOM + '&appid=' + apiKey;
@@ -117,7 +117,6 @@ function forecastQuery(cityName, lat, lon, country) {
                 addToDetailWindow(cityName, country, forecastData);
                 addToForecastWindow(forecastData);
                 searchText.value = '';
-                searchText.focus;
 
             });
         } else {
@@ -288,13 +287,13 @@ function addToDetailWindow(cityName, country, forecastData) {
     if (forecastData.current.uvi < 3) {
         detailWindow.children[4].children[1].classList.add('uvi-low');
     }
-    else if (forecastData.current.uvi >= 3 && forecastData.current.uvi <= 5) {
+    else if (forecastData.current.uvi >= 3 && forecastData.current.uvi < 6) {
         detailWindow.children[4].children[1].classList.add('uvi-moderate');
     }
-    else if (forecastData.current.uvi >= 6 && forecastData.current.uvi <= 7) {
+    else if (forecastData.current.uvi >= 6 && forecastData.current.uvi < 8) {
         detailWindow.children[4].children[1].classList.add('uvi-high');
     }
-    else if (forecastData.current.uvi >= 8 && forecastData.current.uvi <= 10) {
+    else if (forecastData.current.uvi >= 8 && forecastData.current.uvi < 10) {
         detailWindow.children[4].children[1].classList.add('uvi-very-high');
     }
     else {
@@ -354,10 +353,10 @@ function loadSearchHist() {
         var cityName = historyWindow.firstChild.innerHTML;
         addClearButton();
         searchText.innerText = '';
-        searchText.focus();
         cityQuery(cityName);
 
     }
+    detailWindow.focus();
 
 }
 
