@@ -349,8 +349,7 @@ function loadSearchHist() {
     }
 
     if (historyWindow.firstChild) {
-        //searchText.value = historyWindow.firstChild.innerHTML;
-        queryText= historyWindow.firstChild.innerHTML
+        searchText.value = historyWindow.firstChild.innerHTML;
         addClearButton();
         startSearch();
 
