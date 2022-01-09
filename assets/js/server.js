@@ -110,9 +110,9 @@ function forecastQuery(cityName, lat, lon, country) {
 
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
-
+            
             response.json().then(function (forecastData) {
-
+                console.log(forecastData);
                 addHistory(cityName, lat, lon, country);
                 addToDetailWindow(cityName, country, forecastData);
                 addToForecastWindow(forecastData);
